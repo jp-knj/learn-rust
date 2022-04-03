@@ -163,3 +163,18 @@ server
 
 return Vec<i32>::with_capacity(1000); // error something about chained comparisons
 let ramp = (0..n).collect<Vec<i32>>();
+
+let padovan: Vec<u64> = compute_padovan_sequence(n);
+for elem in &padovan {
+    draw_triangle(turtle, *elem);
+}
+
+total += item.price;
+
+let x = 17; // x is type i32
+let index = x as usize; // convert to usize
+
+let is_even = |x| x % 2 == 0;
+
+let is_even |x:u64| -> bool x % 2 == 0;
+let is_even |x:u64| -> bool { x % 2 == 0 };
