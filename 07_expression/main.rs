@@ -52,3 +52,55 @@ let msg = {
     // return value stored in msg
     dandelion_control.get_status()
 }
+
+// shadowing
+for line in file.lines(){
+    let line = line?
+}
+
+// item declaration
+use std::io;
+use std::cmp::Ordering;
+
+fn show_files() -> io::Result<()>{
+    let mut v = vec![];
+
+    fn cmp_by_timestamp_then_name(a: &FileInfo, b: &FileInfo) -> Ordering {
+        // first, campare timestamps newest file first compare paths to break ties
+        a.timestamp_cmp(&b.timestamp)
+            .reverse()
+            .then(a.path.cmp(&b.path))
+    }
+    v.sort_by(cmp_by_timestamp_then_name);
+}
+
+if condition1 {
+    block1
+} else if condition2 {
+    block2
+} else {
+    block_n
+}
+
+match params.get("name") {
+    Some(name) => printIn("Hello, {}!", name),
+    None => printIn!("Greetingm stranger.")
+}
+
+match value {
+    pattern => expr,
+}
+
+let score = match card.rank {
+    Jack => 10,
+    Queen => 10,
+    Ace => 11
+} // non exhoustive patterns
+
+
+let suggest_pet = match favorites.element {
+    Fire => Pet::RedPanda,
+    Air => Pet::Buffalo,
+    Water => Pet::Orca,
+    _ => None // error
+}
