@@ -104,3 +104,29 @@ let suggest_pet = match favorites.element {
     Water => Pet::Orca,
     _ => None // error
 }
+
+while condition {
+    block
+}
+
+while let pattern = expr {
+    block
+}
+
+loop {
+    block
+}
+
+for pattern in iterable {
+    block
+}
+
+let answer = loop {
+    if let Some(line) = next_line(){
+        if line.starts_with("answer: ") {
+            break line;
+        }
+    } else {
+        break "answer: nothing";
+    }
+}
