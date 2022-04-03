@@ -141,3 +141,25 @@ let output = match File::cerate(filename){
     Ok(f) => f,
     Err(err) => return Err(err)
 }
+
+// divergent functions
+fn serve_forever (socket: ServerSocket, handler: ServerHandler) -> !{
+    socket.listen();
+    loop {
+        let s = socket.accept();
+        handler.handle(s);
+    }
+}
+
+let x = gcd(1302, 462); // functions call
+
+let room = player.location(); // method call
+
+let mut numbers = Vec::new(); // type-associated function
+
+server
+    .bind("127.0.0.1:3000").expect("error binding server to address")
+    .run().expect("error running server");
+
+return Vec<i32>::with_capacity(1000); // error something about chained comparisons
+let ramp = (0..n).collect<Vec<i32>>();
