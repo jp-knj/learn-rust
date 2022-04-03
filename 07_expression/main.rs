@@ -130,3 +130,14 @@ let answer = loop {
         break "answer: nothing";
     }
 }
+
+fn f() {
+    return  // return value omittded: defaults to ()
+}
+
+let output = Filecreate(filename)?;
+
+let output = match File::cerate(filename){
+    Ok(f) => f,
+    Err(err) => return Err(err)
+}
