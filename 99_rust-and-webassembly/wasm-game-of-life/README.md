@@ -17,6 +17,42 @@
   <sub>Built with 🦀🕸 by <a href="https://rustwasm.github.io/">The Rust and WebAssembly Working Group</a></sub>
 </div>
 
+## Directory
+```shell
+wasm-game-of-life/
+├── Cargo.toml    // メタデータを指定(Rustのパッケージマネージャでビルドツール)
+├── LICENSE_APACHE
+├── LICENSE_MIT
+├── README.md
+└── src
+    ├── lib.rs    // WebAssemblyにコンパイルするRustクレートのルート
+    └── utils.rs  // Rustを使って作業することを簡単にする
+```
+
+`pkg`ディレクトリ
+```shell
+pkg/
+├── package.json
+├── README.md
+├── wasm_game_of_life_bg.wasm
+├── wasm_game_of_life.d.ts
+└── wasm_game_of_life.js
+```
+`.wasm`ファイルはRustのソースからRustコンパイラによって生成されたWebAssemblyのバイナリ。
+Rustの関数とデータ全てのWasmにコンパイルされたバージョンを含む。
+
+`wasm-game-of-life/www`ディレクトリ
+```shell
+wasm-game-of-life/www/
+├── bootstrap.js        
+├── index.html          // ルートHTMLファイル
+├── index.js            // JavaScriptファイルのエントリーポイント
+├── LICENSE-APACHE
+├── LICENSE-MIT
+├── package.json        // wasm-pack-template パッケージのバージョンである hello-wasm-pack の依存関係が事前に設定 
+├── README.md
+└── webpack.config.js   // webpackを環境設定
+```
 ## About
 
 [**📚 Read this template tutorial! 📚**][template-docs]
