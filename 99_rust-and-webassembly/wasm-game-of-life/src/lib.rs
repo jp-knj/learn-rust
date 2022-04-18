@@ -1,5 +1,6 @@
 mod utils;
 
+use std::fmt;
 use wasm_bindgen::prelude::*;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -23,6 +24,60 @@ pub struct Universe {
     cells: Vec<Cell>
 }
 
+impl Universe {
+    fn get_index(&self, row: u32, column: u32) -> usize {
+        (row * self.width + column) as usize
+    }
+
+    fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
+        let mut count = 0;
+        for delta_row in [self.height - 1, 0, 1].iter().cloned() {
+            for delta_col in [self.width - 1, 0, 1].iter().cloned() {
+                if delta_row == 0 && delta_col == 0 {
+                    continue;
+                }
+                let neighbor_row = (row + delta_row) % self.height;
+                let neighbor_col = (column + delta_col) % self.width;
+                let idx = self.get_index(neighbor_row, neighbor_col);
+                count += self.cells[idx] as u8;
+            }
+        }
+        count
+    }
+
+    /// Get the dead and alive values of the entire universe.
+    pub fn get_cells(&self) -> &[Cell] {
+        &self.cells
+    }
+
+    /// Set cells to be alive in a universe by passing the row and column
+    /// of each cell as an array.
+    pub fn set_cells(&mut self, cells: &[(u32, u32)]) {
+        for (row, col) in cells.iter().cloned() {
+            let idx = self.get_index(row, col);
+            self.cells[idx] = Cell::Alive;
+        }
+    }
+
+    /// Set the width of the universe.
+    ///
+    /// Resets all cells to the dead state.
+    pub fn set_width(&mut self, width: u32) {
+        self.width = width;
+        self.cells = (0..width * self.height).map(|_i| Cell::Dead).collect();
+    }
+
+    /// Set the height of the universe.
+    ///
+    /// Resets all cells to the dead state.
+    pub fn set_height(&mut self, height: u32) {
+        self.height = height;
+        self.cells = (0..self.width * height).map(|_i| Cell::Dead).collect();
+    }
+}
+
+/// Public methods, exported to JavaScript.
+#[wasm_bindgen]
 impl Universe {
     pub fn tick(&mut self) {
         let mut next = self.cells.clone();
@@ -53,29 +108,7 @@ impl Universe {
                 next[idx] = next_cell;
             }
         }
-
         self.cells = next;
-    }
-
-    fn get_index(&self, row: u32, column: u32) -> usize {
-        (row * self.width + column) as usize
-    }
-
-    fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
-        let mut count = 0;
-        for delta_row in [self.height - 1, 0, 1].iter().closed() {
-            for delta_col in [self.width - 1, 0, 1].iter().closed() {
-                if delta_row == 0 && delta_col == 0 {
-                    continue;
-                }
-
-                let neighbor_row = (row + delta_row) % self.height;
-                let neighbor_col = (column + delta_col) % self.width;
-                let index = self.get_index(neighbor_row, neighbor_col);
-                count += self.cells[index] as u8;
-            }
-        }
-        count
     }
 
     pub fn new() -> Universe {
@@ -103,8 +136,6 @@ impl Universe {
         self.to_string()
     }
 }
-
-use std::fmt;
 
 impl fmt::Display for Universe {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
